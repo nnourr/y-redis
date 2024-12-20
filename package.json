@@ -9,12 +9,12 @@
     "url": "https://github.com/sponsors/dmonad"
   },
   "scripts": {
-    "dev": "concurrently -r 'npm run start:server' 'npm run start:worker' 'npm run minio'",
+    "start": "concurrently -r 'npm run redis' 'npm run start:server' 'npm run start:worker'",
     "start:server": "node --env-file .env ./bin/server.js",
     "debug:server": "node --env-file .env --inspect-brk ./bin/worker.js ./bin/server.js",
     "start:worker": "node --env-file .env ./bin/worker.js",
     "debug:worker": "node --env-file .env --inspect-brk ./bin/worker.js",
-    "minio": "docker run -p 9000:9000 -p 9001:9001 quay.io/minio/minio server /data --console-address \":9001\"",
+    "migrate": "node --env-file .env ./src/migrate.js",
     "redis": "docker run -p 6379:6379 redis",
     "dist": "tsc",
     "lint": "standard && tsc",
@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "@y/redis": "file:",
+    "import2": "^1.0.3",
     "lib0": "^0.2.93",
     "redis": "^4.6.12",
     "uws": "github:uNetworking/uWebSockets.js#v20.40.0",
